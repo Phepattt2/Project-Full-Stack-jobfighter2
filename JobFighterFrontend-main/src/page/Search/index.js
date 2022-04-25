@@ -16,6 +16,150 @@ const API_COLLEGE = 'https://raw.githubusercontent.com/MicroBenz/thai-university
 
 /* Pagination */
 function Send_data() {
+
+/*จัดเรียงชื่อมหาลัย คณะ สาขา */
+  /*คณะ */
+  const facultyList = [
+    "เกษตรศาสตร์",
+    "ครุศาสตร์อุตสาหกรรม",
+    "เทคโนโลยีสารสนเทศ",
+    "ประมง",
+    "วิทยาศาสตร์",
+    "วิศวกรรมศาสตร์",
+    "สิ่งแวดล้อม",
+    "กายภาพบำบัด",
+    "การแพทย์แผนไทย",
+    "ทันตแพทยศาสตร์",
+    "เทคนิคการแพทย์",
+    "แพทยศาสตร์",
+    "พยาบาลศาสตร์",
+    "เภสัชศาสตร์",
+    "สหเวชศาสตร์",
+    "สัตวแพทยศาสตร์",
+    "สาธารณสุขศาสตร์",
+    "ทัศนมาตรศาสตร์",
+    "นิติศาสตร์",
+    "นิเทศศาสตร์",
+    "บริหารธุรกิจและการบัญชี",
+    "มนุษยศาสตร์",
+    "รัฐศาสตร์",
+    "ศิลปกรรมศาสตร์",
+    "เศรษฐศาสตร์",
+    "สถาปัตยกรรมศาสตร์",
+    "สังคมศาสตร์",
+    "สังคมสงเคราะห์ศาสตร์",
+  ].sort();
+
+  /* สาขา*/
+  const programList = [
+    "ชีวการแพทย์",
+    "คอมพิวเตอร์",
+    "แมคคาทรอนิกส์",
+    "แมคคาทรอนิกส์และหุ่นยนต์",
+    "ไฟฟ้า",
+    "โยธา",
+    "ธรณี",
+    "อิเล็กทรอนิกส์",
+    "โทรคมนาคม",
+    "เคมี",
+    "เกษตร",
+    "การจัดการและโลจิสติกส์",
+    "ขนส่ง",
+    "ปิโตรเลียม",
+    "ซอฟต์แวร์",
+    "สารสนเทศ",
+    "สิ่งแวดล้อม",
+    "เครื่องกล",
+    "สิ่งทอ",
+    "การตลาด",
+    "การจัดการ ",
+    "การเงินและการธนาคาร ",
+    "การบัญชี",
+    "ระบบสารสนเทศธุรกิจ",
+    "การจัดการการท่องเที่ยวและการบริการ",
+    "ธุรกิจอสังหาริมทรัพย์ ",
+    "การจัดการอุตสาหกรรม",
+    "การประกันภัย",
+    "การจัดการ(กลุ่มวิชาพาณิชยศาสตร์)",
+    "เศรษฐศาสตร์ธุรกิจ",
+    "ภาษาฝรั่งเศสธุรกิจ ",
+    "ภาษาจีนธุรกิจ",
+    "ภาษาญี่ปุ่นธุรกิจ",
+    "ภาษาจีนเพื่อเศรษฐกิจและการค้า",
+    "เทคโนโลยีสารสนเทศ",
+    "วิทยาการโทรคมนาคม",
+    "การวิเคราะห์ข้อมูลเชิงธุรกิจ",
+    "การจัดการเทคโนโลยี",
+    "ธุรกิจดนตรี",
+    "การแสดงดนตรี",
+    "การประชาสัมพันธ์",
+    "การสื่อสารผ่านสื่อใหม่",
+    "การสื่อสารการแสดง",
+    "การออกแบบนิเทศศิลป์",
+    "กระบวนจินตภาพคอมพิวเตอร์",
+    "เทคโนโลยีการอาหาร",
+    "อุตสาหกรรมเกษตร",
+    "สถาปัตยกรรมศาสตร์ ",
+    "สถาปัตยกรรมภายใน",
+    "ออกแบบภายใน",
+    "ออกแบบผลิตภัณฑ์",
+    "คณิตศาสตร์และวิทยาการคอมพิวเตอร์",
+    "เคมี",
+    "ชีววิทยา",
+    "ฟิสิกส์",
+    "พฤกษศาสตร์",
+    "เคมีเทคนิค",
+    "วิทยาศาสตร์สิ่งแวดล้อม",
+    "วิทยาศาสตร์ทางทะเล",
+    "ชีวเคมี",
+    "วัสดุศาสตร์",
+    "จุลชีววิทยา",
+    "เทคโนโลยีทางอาหาร",
+  ].sort();
+
+  /* ประเภทงาน */
+  const jobTypeList = [
+    "เกษตร/จัดสวน/ปศุสัตว์/ประมง/เหมืองแร่",
+    "งานขาย",
+    "เขียนแบบ/งานDrawing/AutoCad/ออกแบบวิศวกรรม",
+    "กฎหมาย",
+    "คอมพิวเตอร์/IT/โปรแกรมเมอร์",
+    "งานการเงิน-ธนาคาร",
+    "งานขนส่ง-คลังสินค้า",
+    "งานนำเข้า-ส่งออก",
+    "งานบริการลูกค้า Call Center",
+    "งานบัญชี",
+    "งานบันเทิง/นักแสดง/นางแบบ/นักร้อง",
+    "จัดซื้อ/ธุรการ/ประสานงานทั่วไป",
+    "เจ้าหน้าที่ความปลอดภัย(จป.)/สิ่งแวดล้อม/ISO",
+    "ช่างเทคนิค/อิเลคโทรนิค/ซ่อมบำรุง/ช่างพิมพ์",
+    "นักเขียน/บรรณาธิการ/พิสูจน์อักษร/Copywriter/นักแปลภาษาบุคคล/ฝึกอบรม",
+    "ผลิต/ควบคุมคุณภาพ/โรงงาน",
+    "ผู้จัดการ/ผู้อำนวยการ/MD/CEO",
+    "แผนกรักษาความปลอดภัย/งานอาคารจอดรถ",
+    "แพทย์/เภสัชกร/สาธารณสุข",
+    "ภูมิศาสตร์/แผนที่/GIS/ผังเมือง",
+    "แม่บ้าน/พี่เลี้ยง/คนสวน",
+    "โยธา/สำรวจ/สถาปัตย์/มัณฑนากร/ประเมินราคา",
+    "ล่าม/มัคคุเทศก์/จองห้อง/จองตั๋ว",
+    "เลขานุการ",
+    "วิจัย/วิเคราะห์ (เศรษฐศาสตร์/หุ้น/ประกันภัย/ธนาคาร)",
+    "วิทยาศาสตร์/Lab/วิจัยพัฒนา",
+    "วิศวกร",
+    "ศิลปะ/กราฟฟิค/ออกแบบ/ช่างภาพ",
+    "ส่งเอกสาร/ขับรถ/ส่งผลิตภัณฑ์",
+    "สื่อสารมวลชน/นักข่าว/งานวิทยุ/โทรทัศน์/หนังสือพิมพ์",
+    "สุขภาพ/โภชนาการ/ความงาม/ฟิตเนส/สปา",
+    "เสื้อผ้า/สิ่งทอ/ช่างแพทเทิร์นdropdown",
+    "ออกแบบเว็บไซต์/Web",
+    "อัญมณีและเครื่องประดับ",
+    "อาจารย์/ครู/งานวิชาการ",
+    "อาหาร/เครื่องดื่ม/กุ๊ก/บาร์เทนเดอร์/พนักงานเสิร์ฟ",
+    "งาน Part-time/พนักงานชั่วคราว",
+    "Freelance",
+    "อื่นๆ",
+  ].sort();
+
   const [colleges,setCollege] = useState([])
   const [provinces,setProvice] = useState([]) 
  
@@ -93,8 +237,8 @@ function Send_data() {
       if (value[keyV[i]] === '' || value[keyV[i]] === 0){
         delete value[keyV[i]]
       }
-      setPageNumber(0)
     }
+    setPageNumber(0)
     var temp2 = []
     var temp1 = []
 
@@ -130,14 +274,11 @@ function Send_data() {
 
   /* เเสดงเป็นบล็อคๆ โชว์ข้อมูลหน้าผู้ใช้ที่ต้องการ -> เวลาเเบ่งหน้าผู้ใช้*/
   var displayUsers = users
-    .slice(
-      pagesVisited,
-      pagesVisited + usersPerPage
-    ) /* สมมติอยู่ในหน้าที่ 6 ก็เเสดงว่าเราเห็นผู้ใช้มาเเล้ว 18 คน , ต่อไปก็หน้าที่ 7 คือหน้าที่ต้องการอันดับเเรก จึงเปนตัวเเปรนี้ + หน้าที่เยี่ยมชมรวมถึงจน.ผู้ใช้ต่อหน้า หน้าที่ 6 มี item 18 ซึ่ง pagesVisited = 18 + 3 */
-    .map((users,index) => {
+    .slice(pagesVisited, pagesVisited + usersPerPage)
+    .map((users, index) => {
       return (
         // เพิ่มให้คลืกไม่ได้ถ้าไมใช้ role student จะได้ไม่ค้องทำหน้าสมัครงานเพิ่ม
-        <Link to= {`/applyjob/?id=${users._id}`} class="text-decoration-none" >
+        <Link to={`/applyjob/?id=${users._id}`} class="text-decoration-none">
           <div className="">
             {/* ผลการค้นหา ที่เเสดง card ออกมาเป็นบล็อคๆ*/}
             <div className="w-3/4 w-100 h-55 rounded-xl bg-white drop-shadow-md p-2 my-4 font-sans">
@@ -179,13 +320,13 @@ function Send_data() {
                 />
                 {/* ที่อยู่ address บริษัท */}
                 <div className="px-0.5 py-1.5  focus:outline-none ml-2 text-black text-sm">
-                  {users.benefit}
+                  {users.provinceAddress}
                   {/* รอเอาค่าจากหลังบ้านมาใส่ */}
                 </div>
               </div>
             </div>
           </div>
-        </Link >
+        </Link>
       );
     });
 
@@ -200,150 +341,155 @@ function Send_data() {
     ); /*ตัวเลขที่เราต้องการเลื่อนไปทางขวา set page number = จน.ที่ถูกเลือกเท่านั้น*/
   };
 
+  
   return (
     <div className="Send_data ">
-    <form onSubmit={handleSubmit}> 
-      <div className="container w-200  items-center my-5 rounded-xl ">
-        <div className="flex flow-row rounded-lg space-x-4 px-4 py-4 ">
-          <div className="flex flex-col w-2/4  items-center rounded-xl bg-[#F7FAF7] drop-shadow-lg">
-            {/* หน้าค้นหางาน */}
-            <div className="flex flex-col w-3/4 gap-3 m-5 ">
-              <div className="p-2 font-bold text-black text-2xl ">ค้นหางาน</div>
-              <div className="flex flex-col space-y-4 m-2">
-                {/* มหาลัย */}
-                <label for="college" className="text-black text-xl">
-                  มหาลัย
-                </label>
-                <select
-                  name="college"
-                  className=" w-100 h-10 rounded-xl bg-white drop-shadow-md "
-                  onChange={handleChange}
-                >
-                   <option></option>
-                        {colleges.map((item)=>
-                        <option>{item.university}</option>
-                        )}
-                </select>
+      <form onSubmit={handleSubmit}>
+        <div className="container w-200  items-center my-5 rounded-xl ">
+          <div className="flex flow-row rounded-lg space-x-4 px-4 py-4 ">
+            <div className="flex flex-col w-2/4  items-center rounded-xl bg-[#F7FAF7] drop-shadow-lg">
+              {/* หน้าค้นหางาน */}
+              <div className="flex flex-col w-3/4 gap-3 m-5 ">
+                <div className="p-2 font-bold text-black text-2xl ">
+                  ค้นหางาน
+                </div>
+                <div className="flex flex-col space-y-4 m-2">
+                  {/* มหาลัย */}
+                  <label for="college" className="text-black text-xl">
+                    มหาลัย
+                  </label>
+                  <select
+                    name="college"
+                    className=" w-100 h-10 rounded-xl bg-white drop-shadow-md  text-zinc-400 
+                    focus:outline-none focus:border-[#24AB82] focus:ring-1 focus:ring-[#24AB82]"
+                    onChange={handleChange}
+                  >
+                    <option>ระบุมหาลัยที่ต้องการจะเลือก</option>
+                    {colleges.map((item) => (
+                      <option>{item.university}</option>
+                    ))}
+                  </select>
 
-                {/* คณะ */}
-                <label for="faculty" className="text-black text-xl">
-                  คณะ
-                </label>
-                <select
-                  name="faculty"
-                  className="w-100 h-10 rounded-xl bg-white drop-shadow-md "
-                  onChange={handleChange}
-                >
-                  <option></option>
-                  <option>วิศวกรรมศาสตร์</option>
-                  <option>แพทยศาสตร์</option>
+                  {/* คณะ */}
+                  <label for="faculty" className="text-black text-xl">
+                    คณะ
+                  </label>
+                  <select
+                    name="faculty"
+                    className="w-100 h-10 rounded-xl bg-white drop-shadow-md text-zinc-400 
+                    focus:outline-none focus:border-[#24AB82] focus:ring-1 focus:ring-[#24AB82]"
+                    onChange={handleChange}
+                  >
+                    <option>ระบุคณะที่ต้องการจะเลือก</option>
+                    {facultyList.map((e, idx) => (
+                      <option value={e}>{e}</option>
+                    ))}
+                  </select>
 
-                </select>
+                  {/* สาขา */}
+                  <label for="program" className="text-black text-xl">
+                    สาขา
+                  </label>
+                  <select
+                    name="program"
+                    className="w-100 h-10 rounded-xl bg-white drop-shadow-md text-zinc-400 
+                    focus:outline-none focus:border-[#24AB82] focus:ring-1 focus:ring-[#24AB82]"
+                    onChange={handleChange}
+                  >
+                    <option>ระบุสาขาที่ต้องการจะเลือก</option>
+                    {programList.map((e, idx) => (
+                      <option value={e}>{e}</option>
+                    ))}
+                  </select>
 
-                {/* สาขา */}
-                <label for="program" className="text-black text-xl">
-                  สาขา
-                </label>
-                <select
-                  name="program"
-                  className="w-100 h-10 rounded-xl bg-white drop-shadow-md "
-                  onChange={handleChange}
-                >
-                  <option></option>
-                  <option>คอมพิวเตอร์</option>
-                  <option>ไฟฟ้า</option>
+                  {/* ประเภทงานทั้งหมด */}
+                  <label for="jobType" className="text-black text-xl">
+                    ประเภทงานทั้งหมด (สาขาอาชีพ)
+                  </label>
+                  <select
+                    name="jobType"
+                    className=" w-100 h-10 rounded-xl bg-white drop-shadow-md text-zinc-400 
+                    focus:outline-none focus:border-[#24AB82] focus:ring-1 focus:ring-[#24AB82]"
+                    onChange={handleChange}
+                  >
+                    <option>ระบุประเภทงานที่ต้องการจะเลือก</option>
+                    {jobTypeList.map((e, idx) => (
+                      <option value={e}>{e}</option>
+                    ))}
+                  </select>
 
-                </select>
+                  {/* สถานที่ทำงาน */}
+                  <label for="address" className="text-black text-xl">
+                    สถานที่ทำงาน
+                  </label>
+                  <select
+                    name="address"
+                    className=" w-100 h-10 rounded-xl bg-white drop-shadow-md text-zinc-400 
+                    focus:outline-none focus:border-[#24AB82] focus:ring-1 focus:ring-[#24AB82]"
+                    onChange={handleChange}
+                  >
+                    <option>ระบุสถานทีทำงานที่ต้องการจะเลือก</option>
+                    {provinces.map((item, index) => (
+                      <option>{item.name_th}</option>
+                    ))}
+                  </select>
 
-                {/* ประเภทงานทั้งหมด */}
-                <label for="jobType" className="text-black text-xl">
-                  ประเภทงานทั้งหมด (สาขาอาชีพ)
-                </label>
-                <select
-                  name="jobType"
-                  className=" w-100 h-10 rounded-xl bg-white drop-shadow-md "
-                  onChange={handleChange}
-                >
-                  <option></option>
-                  <option>Software</option>
-                </select>
+                  {/* เงินเดือน*/}
+                  <label for="wage" className="text-black text-xl">
+                    เงินเดือน (บาท)
+                  </label>
+                  <div className="flex flex-row space-x-4 ">
+                    {/* ช่วงเงินเดือน-ข้้นต่ำ */}
+                    <input
+                      name="wageMin"
+                      className=" w-2/4 h-10 rounded-xl bg-white drop-shadow-md placeholder:text-zinc-400
+                    focus:outline-none focus:border-[#24AB82] focus:ring-1 focus:ring-[#24AB82]
+                    disabled:text-[#FF3358] disabled:border-[#FF3358] disabled:shadow-none
+                    invalid:border-[#FF3358] invalid:text-[#FF3358] focus:invalid:border-[#FF3358] focus:invalid:ring-[#FF3358]"
+                      placeholder="ต่ำสุด"
+                      onKeyPress={isNumberInput}
+                      onChange={handleChange}
+                      autoComplete="none"
+                    ></input>
+                    <div className="text-xl text-gray-500">-</div>
+                    {/* ช่วงเงินเดือน-มากสุด*/}
+                    <input
+                      name="wageMax"
+                      className=" w-2/4 h-10 rounded-xl bg-white drop-shadow-md placeholder:text-zinc-400
+                    focus:outline-none focus:border-[#24AB82] focus:ring-1 focus:ring-[#24AB82]
+                    disabled:text-[#FF3358] disabled:border-[#FF3358] disabled:shadow-none
+                    invalid:border-[#FF3358] invalid:text-[#FF3358] focus:invalid:border-[#FF3358] focus:invalid:ring-[#FF3358] "
+                      placeholder="สูงสุด"
+                      onKeyPress={isNumberInput}
+                      onChange={handleChange}
+                      autoComplete="none"
+                    ></input>
+                  </div>
+                </div>
 
-                {/* สถานที่ทำงาน */}
-                <label for="address" className="text-black text-xl">
-                  สถานที่ทำงาน
-                </label>
-                <select
-                  name="address"
-                  className="w-100 h-10 rounded-xl bg-white drop-shadow-md "
-                  onChange={handleChange}
-                >
-                  <option></option>
-                  {provinces.map((item,index)=>
-                  <option>{item.name_th}</option>
-                  )}
-
-                </select>
-
-                {/* ระบุตำเเหน่งงานหรือชื่อบริษัท */}
-                <label for="companyName" className="text-black text-xl">
-                  ระบุตำเเหน่งงานหรือชื่อบริษัท
-                </label>
-                <select
-                  name="companyName"
-                  className="w-100 h-10 rounded-xl bg-white drop-shadow-md "
-                  onChange={handleChange}
-                >
-                  <option>บริษัทxxx</option>
-                </select>
-
-                {/* เงินเดือน*/}
-                <label for="wageMin" className="text-black text-xl">
-                  เงินเดือน min (บาท)
-                </label>
-                <input
-                  name="wageMin"
-                  className="w-100 h-10 first-line:h-10 rounded-xl bg-white drop-shadow-md "
-                  onKeyPress={isNumberInput}
-                  onChange={handleChange}
-                >
-                </input>
-                {/* เงินเดือน*/}
-                <label for="wageMax" className="text-black text-xl">
-                  เงินเดือน max(บาท)
-                </label>
-                <input
-                  name="wageMax"
-                  className="w-100 h-10 first-line:h-10 rounded-xl bg-white drop-shadow-md "
-                  onKeyPress={isNumberInput}
-                  onChange={handleChange}
-                >
-                </input>
-                
-              </div>
-              
-              {/* Button Search*/}
-              <div className="flex items-center ml-2.5 mt-3 space-y-4 ">
-                <button
-                  class=" bg-[#24AB82] drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 hover:bg-[#1F795E] hover:ring-2 hover:ring-white "
-                  disabled = {(value.wageMin < 0 || value.wageMax < 0) } 
-              >
-                  ค้นหา
-                </button>
+                {/* Button Search*/}
+                <div className="flex items-center ml-2.5 mt-3 space-y-4 ">
+                  <button
+                    className=" bg-[#24AB82] drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 hover:bg-[#1F795E] hover:ring-2 hover:ring-white "
+                    disabled={value.wageMin < 0 || value.wageMax < 0}
+                  >
+                    ค้นหา
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* หน้าผลการค้นหา */}
-          <div className="flex flex-col w-3/4  items-center rounded-2xl  bg-[#F7FAF7] drop-shadow-lg">
-            <div className="flex flex-col w-3/4 gap-5 m-5 ">
-              <div className="p-2 font-bold text-black text-2xl border-b-4 border-zinc-400 ">
-                ผลการค้นหา
-              </div>
-              <div className="flex flex-col w-full h-full ">
-                {displayUsers} 
-                <div className="flex h-50  mt-5">
-                  {/* ปุ่มเปลี่ยนหน้า */}
-                  <ul className="button-list">
+            {/* หน้าผลการค้นหา */}
+            <div className="flex flex-col w-3/4  items-center rounded-2xl  bg-[#F7FAF7] drop-shadow-lg">
+              <div className="flex flex-col w-3/4 gap-5 m-5 ">
+                <div className="p-2 font-bold text-black text-2xl border-b-4 border-zinc-400 ">
+                  ผลการค้นหา
+                </div>
+                <div className="flex flex-col w-full h-full ">
+                  {displayUsers}
+                  <div className="flex h-50  mt-5">
+                    {/* ปุ่มเปลี่ยนหน้า */}
+                    <ul className="button-list">
                       <ReactPaginate
                         previousLabel={"Previous"}
                         nextLabel={"Next"}
@@ -355,16 +501,16 @@ function Send_data() {
                         disabledClassName={"paginationDisabled"}
                         activeClassName={"paginationActive"}
                       />
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
-              </div>
 
-              {/* ผลการค้นหา */}
+                {/* ผลการค้นหา */}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
     </div>
   );
 }

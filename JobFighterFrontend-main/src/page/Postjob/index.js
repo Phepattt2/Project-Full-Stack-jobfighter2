@@ -9,6 +9,147 @@ const API_PROVINCE = 'https://raw.githubusercontent.com/kongvut/thai-province-da
 const API_COLLEGE = 'https://raw.githubusercontent.com/MicroBenz/thai-university-database/master/dist/universities-pretty.json'
 
 export default function Postjob(){
+  const facultyList = [
+    "เกษตรศาสตร์",
+    "ครุศาสตร์อุตสาหกรรม",
+    "เทคโนโลยีสารสนเทศ",
+    "ประมง",
+    "วิทยาศาสตร์",
+    "วิศวกรรมศาสตร์",
+    "สิ่งแวดล้อม",
+    "กายภาพบำบัด",
+    "การแพทย์แผนไทย",
+    "ทันตแพทยศาสตร์",
+    "เทคนิคการแพทย์",
+    "แพทยศาสตร์",
+    "พยาบาลศาสตร์",
+    "เภสัชศาสตร์",
+    "สหเวชศาสตร์",
+    "สัตวแพทยศาสตร์",
+    "สาธารณสุขศาสตร์",
+    "ทัศนมาตรศาสตร์",
+    "นิติศาสตร์",
+    "นิเทศศาสตร์",
+    "บริหารธุรกิจและการบัญชี",
+    "มนุษยศาสตร์",
+    "รัฐศาสตร์",
+    "ศิลปกรรมศาสตร์",
+    "เศรษฐศาสตร์",
+    "สถาปัตยกรรมศาสตร์",
+    "สังคมศาสตร์",
+    "สังคมสงเคราะห์ศาสตร์",
+  ].sort();
+
+  /* สาขา*/
+  const programList = [
+    "ชีวการแพทย์",
+    "คอมพิวเตอร์",
+    "แมคคาทรอนิกส์",
+    "แมคคาทรอนิกส์และหุ่นยนต์",
+    "ไฟฟ้า",
+    "โยธา",
+    "ธรณี",
+    "อิเล็กทรอนิกส์",
+    "โทรคมนาคม",
+    "เคมี",
+    "เกษตร",
+    "การจัดการและโลจิสติกส์",
+    "ขนส่ง",
+    "ปิโตรเลียม",
+    "ซอฟต์แวร์",
+    "สารสนเทศ",
+    "สิ่งแวดล้อม",
+    "เครื่องกล",
+    "สิ่งทอ",
+    "การตลาด",
+    "การจัดการ ",
+    "การเงินและการธนาคาร ",
+    "การบัญชี",
+    "ระบบสารสนเทศธุรกิจ",
+    "การจัดการการท่องเที่ยวและการบริการ",
+    "ธุรกิจอสังหาริมทรัพย์ ",
+    "การจัดการอุตสาหกรรม",
+    "การประกันภัย",
+    "การจัดการ(กลุ่มวิชาพาณิชยศาสตร์)",
+    "เศรษฐศาสตร์ธุรกิจ",
+    "ภาษาฝรั่งเศสธุรกิจ ",
+    "ภาษาจีนธุรกิจ",
+    "ภาษาญี่ปุ่นธุรกิจ",
+    "ภาษาจีนเพื่อเศรษฐกิจและการค้า",
+    "เทคโนโลยีสารสนเทศ",
+    "วิทยาการโทรคมนาคม",
+    "การวิเคราะห์ข้อมูลเชิงธุรกิจ",
+    "การจัดการเทคโนโลยี",
+    "ธุรกิจดนตรี",
+    "การแสดงดนตรี",
+    "การประชาสัมพันธ์",
+    "การสื่อสารผ่านสื่อใหม่",
+    "การสื่อสารการแสดง",
+    "การออกแบบนิเทศศิลป์",
+    "กระบวนจินตภาพคอมพิวเตอร์",
+    "เทคโนโลยีการอาหาร",
+    "อุตสาหกรรมเกษตร",
+    "สถาปัตยกรรมศาสตร์ ",
+    "สถาปัตยกรรมภายใน",
+    "ออกแบบภายใน",
+    "ออกแบบผลิตภัณฑ์",
+    "คณิตศาสตร์และวิทยาการคอมพิวเตอร์",
+    "เคมี",
+    "ชีววิทยา",
+    "ฟิสิกส์",
+    "พฤกษศาสตร์",
+    "เคมีเทคนิค",
+    "วิทยาศาสตร์สิ่งแวดล้อม",
+    "วิทยาศาสตร์ทางทะเล",
+    "ชีวเคมี",
+    "วัสดุศาสตร์",
+    "จุลชีววิทยา",
+    "เทคโนโลยีทางอาหาร",
+  ].sort();
+
+  /* ประเภทงาน */
+  const jobTypeList = [
+    "เกษตร/จัดสวน/ปศุสัตว์/ประมง/เหมืองแร่",
+    "งานขาย",
+    "เขียนแบบ/งานDrawing/AutoCad/ออกแบบวิศวกรรม",
+    "กฎหมาย",
+    "คอมพิวเตอร์/IT/โปรแกรมเมอร์",
+    "งานการเงิน-ธนาคาร",
+    "งานขนส่ง-คลังสินค้า",
+    "งานนำเข้า-ส่งออก",
+    "งานบริการลูกค้า Call Center",
+    "งานบัญชี",
+    "งานบันเทิง/นักแสดง/นางแบบ/นักร้อง",
+    "จัดซื้อ/ธุรการ/ประสานงานทั่วไป",
+    "เจ้าหน้าที่ความปลอดภัย(จป.)/สิ่งแวดล้อม/ISO",
+    "ช่างเทคนิค/อิเลคโทรนิค/ซ่อมบำรุง/ช่างพิมพ์",
+    "นักเขียน/บรรณาธิการ/พิสูจน์อักษร/Copywriter/นักแปลภาษาบุคคล/ฝึกอบรม",
+    "ผลิต/ควบคุมคุณภาพ/โรงงาน",
+    "ผู้จัดการ/ผู้อำนวยการ/MD/CEO",
+    "แผนกรักษาความปลอดภัย/งานอาคารจอดรถ",
+    "แพทย์/เภสัชกร/สาธารณสุข",
+    "ภูมิศาสตร์/แผนที่/GIS/ผังเมือง",
+    "แม่บ้าน/พี่เลี้ยง/คนสวน",
+    "โยธา/สำรวจ/สถาปัตย์/มัณฑนากร/ประเมินราคา",
+    "ล่าม/มัคคุเทศก์/จองห้อง/จองตั๋ว",
+    "เลขานุการ",
+    "วิจัย/วิเคราะห์ (เศรษฐศาสตร์/หุ้น/ประกันภัย/ธนาคาร)",
+    "วิทยาศาสตร์/Lab/วิจัยพัฒนา",
+    "วิศวกร",
+    "ศิลปะ/กราฟฟิค/ออกแบบ/ช่างภาพ",
+    "ส่งเอกสาร/ขับรถ/ส่งผลิตภัณฑ์",
+    "สื่อสารมวลชน/นักข่าว/งานวิทยุ/โทรทัศน์/หนังสือพิมพ์",
+    "สุขภาพ/โภชนาการ/ความงาม/ฟิตเนส/สปา",
+    "เสื้อผ้า/สิ่งทอ/ช่างแพทเทิร์นdropdown",
+    "ออกแบบเว็บไซต์/Web",
+    "อัญมณีและเครื่องประดับ",
+    "อาจารย์/ครู/งานวิชาการ",
+    "อาหาร/เครื่องดื่ม/กุ๊ก/บาร์เทนเดอร์/พนักงานเสิร์ฟ",
+    "งาน Part-time/พนักงานชั่วคราว",
+    "Freelance",
+    "อื่นๆ",
+  ].sort();
+
 
   let { user } = useSelector((state) => ({ ...state }));
   const [provinces,setProvice] = useState([]) 
@@ -183,10 +324,10 @@ export default function Postjob(){
                         มหาลัย
                 </Typography>
                 <select name = "college" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option></option>
-                        {colleges.map((item)=>
-                        <option>{item.university}</option>
-                        )}
+                <option>ระบุมหาลัยที่ต้องการจะเลือก</option>
+                    {colleges.map((item) => (
+                      <option>{item.university}</option>
+                    ))}
                 </select>
                 </div>
 
@@ -195,10 +336,10 @@ export default function Postjob(){
                         คณะ
                 </Typography>
                 <select name ="faculty" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option>United States</option>
-                <option>Canada</option>
-                <option>France</option>
-                <option>Germany</option>
+                <option>ระบุคณะที่ต้องการจะเลือก</option>
+                    {facultyList.map((e, idx) => (
+                      <option value={e}>{e}</option>
+                    ))}
                 </select>
                 </div>
 
@@ -207,10 +348,10 @@ export default function Postjob(){
                         สาขา
                 </Typography>
                 <select name="program" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option>United States</option>
-                <option>Canada</option>
-                <option>France</option>
-                <option>Germany</option>
+                <option>ระบุสาขาที่ต้องการจะเลือก</option>
+                    {programList.map((e, idx) => (
+                      <option value={e}>{e}</option>
+                    ))}
                 </select>
                 </div>
                 
@@ -223,10 +364,10 @@ export default function Postjob(){
                         ประเภทงาน
                 </Typography>
                 <select name="jobType" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option>สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</option>
-                <option>Canada</option>
-                <option>France</option>
-                <option>Germany</option>
+                <option>ระบุประเภทงานที่ต้องการจะเลือก</option>
+                    {jobTypeList.map((e, idx) => (
+                      <option value={e}>{e}</option>
+                    ))}
                 </select>
                 </div>
 
@@ -278,10 +419,10 @@ export default function Postjob(){
                         จังหวัดของสถานประกอบการ
                 </Typography>
                 <select name="provinceAddress" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option></option>
-                        {provinces.map((item)=>
-                        <option>{item.name_th}</option>
-                        )}
+                <option>ระบุสถานทีทำงานที่ต้องการจะเลือก</option>
+                    {provinces.map((item, index) => (
+                      <option>{item.name_th}</option>
+                    ))}
                 </select>
                 </div>
 
