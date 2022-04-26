@@ -113,11 +113,5 @@ res.status(200).json(post2)
 })
 
 
-
-
-
-
-
-
   module.exports = {GetSearch,SelectedPost,SubmitJob,GetSearchBoost,GetSearchNotBoost}
 

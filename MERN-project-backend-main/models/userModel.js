@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema(
       default: 'student'
     },
 
-    img: Buffer,            // student or company img 
+    img: String,            // student or company img 
 
     //@student 
     phone: Number,

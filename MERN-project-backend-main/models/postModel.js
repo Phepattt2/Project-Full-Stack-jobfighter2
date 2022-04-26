@@ -21,7 +21,10 @@ const postSchema = mongoose.Schema(
     rate: Number,       // อัตราที่รับ
     provinceAddress : String,    // ที่อยู่บริษัท
     postDateExpire : String,  // *รอแก้ ระยะเวลาโพส
-    enable: Boolean,
+    enable: {
+      type :Boolean,
+      default : false
+    },
     companyAddress : String,
     boost: Boolean,     // boost post
     

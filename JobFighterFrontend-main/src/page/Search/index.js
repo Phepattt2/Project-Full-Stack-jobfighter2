@@ -7,6 +7,7 @@ import ReactPaginate from "react-paginate";
 import axios from "axios";
 import JsonData from "./MOCK_DATA.json";
 import "./Searchresult.css"; 
+import Salary from "../../assets/pics/Salary.png";
 import { Link } from "react-router-dom";
 const API_PROVINCE = 'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province.json'
 const API_COLLEGE = 'https://raw.githubusercontent.com/MicroBenz/thai-university-database/master/dist/universities-pretty.json'
@@ -172,24 +173,29 @@ function Send_data() {
     JsonData = response.data
 
     console.log('fetch first')
-    const boosted = await axios.post(process.env.REACT_APP_API+'/search',{'boost':true})
+    const boosted = await axios.post(process.env.REACT_APP_API+'/search',{'boost':true , 'enable': true})
     temp1 = boosted.data
     for(var m = 0 ; m < temp1.length ;  m++){
       temp2.push(temp1[m])
     }
-    const notboosted = await axios.post(process.env.REACT_APP_API+'/search',{'boost':false})
+    const notboosted = await axios.post(process.env.REACT_APP_API+'/search',{'boost':false , 'enable': true})
     temp1 = notboosted.data
     for(var m = 0 ; m < temp1.length ;  m++){
       temp2.push(temp1[m])
     }
     setUsers(temp2)
+    console.log('sorted res is :',temp2)
+    console.log('temp[0] is user :',temp2[0].user.name)
+    console.log('temp[1] is user :',temp2[1].user.name)
 
   }
+
   async function fetchCollegesName(){  
     const response = await fetch(API_COLLEGE)
     const data = await response.json() 
     setCollege(data)
   }
+  
   async function fetchProvincesName(){  
     const response = await fetch(API_PROVINCE)
     const data = await response.json() 
@@ -211,6 +217,7 @@ function Send_data() {
     address : '',
     companyName : '' ,
     boost : '',
+    enable :true
     // image file test
   })
 
@@ -220,6 +227,7 @@ function Send_data() {
       alert('Please Enter Number')
       e.preventDefault()
     }
+    
   }
 
   const handleChange = (e) => {
@@ -230,14 +238,18 @@ function Send_data() {
     })
   }
   
+
   async function handleSubmit (e)  {
     e.preventDefault()
+    
     let keyV = ['college' ,'program','faculty','jobType' ,'wageMin' ,'wageMax' ,'address' ,'boost' ,'companyName']
+
     for (var i =0 ; i < keyV.length ;i++){
       if (value[keyV[i]] === '' || value[keyV[i]] === 0){
         delete value[keyV[i]]
       }
     }
+
     setPageNumber(0)
     var temp2 = []
     var temp1 = []
@@ -252,13 +264,12 @@ function Send_data() {
     const notboosted = await axios.post(process.env.REACT_APP_API+'/search/gsnb',value)
     temp1 = notboosted.data
     // console.log('t1.2',temp1.length)
-    for ( var k = 0 ; k < temp1.length; k++){
-      temp2.push(temp1[k])
+    for ( var j = 0 ; j < temp1.length; j++){
+      temp2.push(temp1[j])
     }
     console.log('sorted res is :',temp2)
     setUsers(temp2)
    
-
 }
 
   const [users, setUsers] = useState(
@@ -290,20 +301,22 @@ function Send_data() {
                     {/* รอเอาค่าจากหลังบ้านมาใส่ */}
                   </div>
                 </div>
+                  {/*boost post*/}
 
                 {/* ชื่อบริษัท */}
                 <div className="row-span-1 col-span-1 ">
                   <div className=" px-4 py-1.5  focus:outline-none text-black ml-2">
-                    {users.companyName}
+                    {users.user.name}
                     {/* รอเอาค่าจากหลังบ้านมาใส่ */}
                   </div>
                 </div>
 
+            
                 {/* logo company */}
                 <div className="row-span-3 ml-20 grid justify-items-center">
                   <div className="w-20 h-20 rounded-xl bg-[#E2E2E2] ">
                     <img
-                      src={Company1} //ลองใส่รูปไปก่อน รอดึง logo จากหลังบ้าน
+                      src={users.user.img} //ลองใส่รูปไปก่อน รอดึง logo จากหลังบ้าน
                       alt="logoCompany"
                       span="location"
                     />
@@ -323,6 +336,19 @@ function Send_data() {
                   {users.provinceAddress}
                   {/* รอเอาค่าจากหลังบ้านมาใส่ */}
                 </div>
+                
+                  <img
+                    src={Salary}
+                    alt="logoAddress"
+                    className=" h-5 w-5 ml-8"
+                    span="location"
+                  />
+                  <div className="px-0.5 py-1.5  focus:outline-none ml-2 text-black text-sm">
+                  { users.wageMin} - { users.wageMax}
+                
+                    
+              </div>
+
               </div>
             </div>
           </div>
@@ -447,9 +473,10 @@ function Send_data() {
                     disabled:text-[#FF3358] disabled:border-[#FF3358] disabled:shadow-none
                     invalid:border-[#FF3358] invalid:text-[#FF3358] focus:invalid:border-[#FF3358] focus:invalid:ring-[#FF3358]"
                       placeholder="ต่ำสุด"
-                      onKeyPress={isNumberInput}
+                      onKeyPress={isNumberInput }
                       onChange={handleChange}
                       autoComplete="none"
+
                     ></input>
                     <div className="text-xl text-gray-500">-</div>
                     {/* ช่วงเงินเดือน-มากสุด*/}
@@ -463,6 +490,7 @@ function Send_data() {
                       onKeyPress={isNumberInput}
                       onChange={handleChange}
                       autoComplete="none"
+                    
                     ></input>
                   </div>
                 </div>
@@ -471,7 +499,7 @@ function Send_data() {
                 <div className="flex items-center ml-2.5 mt-3 space-y-4 ">
                   <button
                     className=" bg-[#24AB82] drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 hover:bg-[#1F795E] hover:ring-2 hover:ring-white "
-                    disabled={value.wageMin < 0 || value.wageMax < 0}
+                    disabled={(value.wageMin < 0 || value.wageMax < 0 )|| (value.wageMin > value.wageMax)}
                   >
                     ค้นหา
                   </button>

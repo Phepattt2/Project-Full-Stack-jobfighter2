@@ -34,6 +34,7 @@ const setPost = asyncHandler(async (req, res) => {
     postDateExpire : req.body.postDateExpire,
     companyAddress : req.body.companyAddress ,
     boost: req.body.boost,
+    enable : false 
   })
 
   console.log('Created post')
