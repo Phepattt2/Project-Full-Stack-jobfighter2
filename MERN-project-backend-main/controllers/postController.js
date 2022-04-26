@@ -31,10 +31,17 @@ const setPost = asyncHandler(async (req, res) => {
     wageMax: req.body.wageMax,
     rate: req.body.rate,
     provinceAddress : req.body.provinceAddress ,
+    postExpireIn : req.body.postExpireIn,
     postDateExpire : req.body.postDateExpire,
     companyAddress : req.body.companyAddress ,
     boost: req.body.boost,
-    enable : false 
+    enable : false ,  
+    slipimg : '' , 
+    price : 0 ,
+    slipimg : '',
+    payname :'',
+    paydate : '',
+
   })
 
   console.log('Created post')
@@ -78,7 +85,6 @@ const updatePost = asyncHandler(async (req, res) => {
 // @access  Private
 const deletePost = asyncHandler(async (req, res) => {
   const post = await postSchema.findById(req.params.id)
-
   if (!post) {
     res.status(400)
     throw new Error('Post not found')
@@ -102,9 +108,43 @@ const deletePost = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id })
 })
 
+//method put
+const payPost = asyncHandler(async (req, res) => {
+  console.log('reqdata:::::',req.body)
+  const post = await postSchema.findByIdAndUpdate(req.params.id, req.body)
+  res.status(200).json(post)
+})
+
+//method get
+const getpayPost = asyncHandler(async (req, res) => {
+
+  console.log(req.params.id)
+  const post = await postSchema.findById(req.params.id)
+  console.log('post is: ',post) 
+
+  var calPrice = 500 // base prince 
+  var boostPrice = 150 
+  var totalPrice 
+  calPrice = calPrice * post.postExpireIn
+  if (post.boost === true ){
+    boostPrice = boostPrice * post.postExpireIn
+  }
+  totalPrice = boostPrice +calPrice 
+  console.log(`${calPrice} ${boostPrice} ${totalPrice}`)
+
+  await postSchema.findByIdAndUpdate(req.params.id, {'price':totalPrice})
+  
+
+
+
+  res.json({'calPrice':calPrice , 'boostPrice':boostPrice , 'totalPrice' : totalPrice ,'postExpireIn' :  post.postExpireIn })
+})
+
 module.exports = { 
   getPosts,
   setPost,
   updatePost,
   deletePost,
+  payPost,
+  getpayPost,
 }

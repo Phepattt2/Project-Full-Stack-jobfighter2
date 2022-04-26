@@ -20,15 +20,26 @@ const postSchema = mongoose.Schema(
     wageMax : Number,
     rate: Number,       // อัตราที่รับ
     provinceAddress : String,    // ที่อยู่บริษัท
+    postExpireIn : Number,  // *รอแก้ ระยะเวลาโพส
     postDateExpire : String,  // *รอแก้ ระยะเวลาโพส
     enable: {
       type :Boolean,
       default : false
     },
     companyAddress : String,
+
+
     boost: Boolean,     // boost post
+
+    price : Number,
+    slipimg : String,
+    payname :String,
+    paydate : String,
+
     
-    
+
+
+
   },
   {
     timestamps: true,

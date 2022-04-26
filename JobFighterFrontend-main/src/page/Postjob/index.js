@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import "./Postjob.css";
 import axios from 'axios';
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const API_PROVINCE = 'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province.json'
 const API_COLLEGE = 'https://raw.githubusercontent.com/MicroBenz/thai-university-database/master/dist/universities-pretty.json'
@@ -152,6 +153,8 @@ export default function Postjob(){
 
 
   let { user } = useSelector((state) => ({ ...state }));
+  const [disButton,setDisButton] = useState(false)
+  const [recivePost,setRecivePost] = useState([])
   const [provinces,setProvice] = useState([]) 
   const [colleges,setCollege] = useState([]) 
   const [postdata,setPost] = useState({
@@ -166,6 +169,7 @@ export default function Postjob(){
       ,'wageMax':0
       ,'rate':0
       ,'provinceAddress':''
+      ,'postExpireIn':1
       ,'postDateExpire':''
       ,'companyName':''
       ,'companyAddress':''
@@ -210,18 +214,25 @@ export default function Postjob(){
     
 
     }
-    console.log(postdata.boost)
+    
+
+  function disall(e) {
+    setDisButton(!disButton)
+    console.log('disbutton',disButton)
+  }
+
 
   const handleChange = (e) => {
       const d =  Date.now()
       console.log(e.target.name ,e.target.value )
-      if(e.target.name === 'postDateExpire' ){
+      if(e.target.name === 'postExpireIn' ){
         let addtime = e.target.value*3600000
         let settime = addtime+d
         const exp = new Date(settime)
         setPost({
           ...postdata,
-          [e.target.name]:exp
+          postDateExpire:exp,
+          postExpireIn:e.target.value
         })
      
       }else{
@@ -232,22 +243,25 @@ export default function Postjob(){
       }
     }
   
-  const handleSubmit = (e) => {
+    
+    async function handleSubmit (e) {
       e.preventDefault()
+
       console.log('this is working')
-      let keyP = ['desc' ,'benefit','college','faculty' ,'program' ,'jobType' ,'position','wageMin','wageMax' ,'rate' ,'provinceAddress','postDateExpire','companyName','companyAddress','img']
+      let keyP = ['desc' ,'benefit','college','faculty' ,'program' ,'jobType' ,'position','wageMin','wageMax' ,'rate' ,'provinceAddress','postExpireIn','companyName','companyAddress','img']
       for (var i =0 ; i < keyP.length ;i++){
         if (postdata[keyP[i]] === '' || postdata[keyP[i]] === 0){
           delete postdata[keyP[i]]
         }
       }
       console.log('postdata',postdata)
-      // send header with token !!!//
-      axios.post(process.env.REACT_APP_API+'/posts',postdata,{headers:{'authorization':`Bearer ${user.token}`} })
-      // res
-      .then(res => {
-        console.log('respond is ',res.data)
-      })
+    
+     const res = await axios.post(process.env.REACT_APP_API+'/posts',postdata,{headers:{'authorization':`Bearer ${user.token}`} })
+    console.log('resdatais:',res.data)   
+     setRecivePost(res.data)
+    console.log('recivePostis:',recivePost)   
+      
+   
   }
 
     const notosan1=createTheme({
@@ -279,10 +293,11 @@ export default function Postjob(){
       });
     // const initialValues = {detailwork: "",};
     // const [formValues, setFormValues]=useState();
+    console.log('recivePostis: Botoom',recivePost)   
+
     return(
       
     <ThemeProvider theme={notosan1}>
-      <form onSubmit={handleSubmit}>
         <div className=" h-20 w-200 bg-green-300 rounded-t-lg mx-10 mt-8">
           
             {/* หัวข้อ */}
@@ -300,7 +315,7 @@ export default function Postjob(){
                 รายละเอียดงาน
             </Typography>
             {/* <label for="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"/> */}
-            <textarea name="desc" className="message" rows="4" class="resize-none p-2.5 w-11/12 ml-7 mt-2 rounded-lg ring-2 ring-black"
+            <textarea disabled={disButton===true} name="desc" className="message" rows="4" class="resize-none p-2.5 w-11/12 ml-7 mt-2 rounded-lg ring-2 ring-black"
             placeholder="กรุณากรอกรายละเอียด..." onChange={handleChange}
             ></textarea>
         
@@ -310,7 +325,7 @@ export default function Postjob(){
                 สวัสดิการ
             </Typography>
             </div>
-            <textarea name = "benefit" className="message" rows="4" class="resize-none p-2.5 w-11/12 ml-7 mt-2 rounded-lg ring-2 ring-black" placeholder="กรุณากรอกรายละเอียด..." onChange={handleChange}></textarea>
+            <textarea disabled={disButton===true} name = "benefit" className="message" rows="4" class="resize-none p-2.5 w-11/12 ml-7 mt-2 rounded-lg ring-2 ring-black" placeholder="กรุณากรอกรายละเอียด..." onChange={handleChange}></textarea>
             
 
             {/* คุณสมบัติของผู้สมัคร */}
@@ -323,8 +338,8 @@ export default function Postjob(){
                 <Typography variant="body2">
                         มหาลัย
                 </Typography>
-                <select name = "college" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option>ระบุมหาลัยที่ต้องการจะเลือก</option>
+                <select disabled={disButton===true} name = "college" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
+                <option value= '1' >ระบุมหาลัยที่ต้องการจะเลือก</option>
                     {colleges.map((item) => (
                       <option>{item.university}</option>
                     ))}
@@ -335,8 +350,8 @@ export default function Postjob(){
                 <Typography variant="body2">
                         คณะ
                 </Typography>
-                <select name ="faculty" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option>ระบุคณะที่ต้องการจะเลือก</option>
+                <select disabled={disButton===true} name ="faculty" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
+                <option value= '1' >ระบุคณะที่ต้องการจะเลือก</option>
                     {facultyList.map((e, idx) => (
                       <option value={e}>{e}</option>
                     ))}
@@ -347,8 +362,8 @@ export default function Postjob(){
                 <Typography variant="body2">
                         สาขา
                 </Typography>
-                <select name="program" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option>ระบุสาขาที่ต้องการจะเลือก</option>
+                <select disabled={disButton===true} name="program" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
+                <option value= '1' >ระบุสาขาที่ต้องการจะเลือก</option>
                     {programList.map((e, idx) => (
                       <option value={e}>{e}</option>
                     ))}
@@ -363,8 +378,8 @@ export default function Postjob(){
                 <Typography variant="body2">
                         ประเภทงาน
                 </Typography>
-                <select name="jobType" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option>ระบุประเภทงานที่ต้องการจะเลือก</option>
+                <select disabled={disButton===true} name="jobType" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
+                <option value= '1' >ระบุประเภทงานที่ต้องการจะเลือก</option>
                     {jobTypeList.map((e, idx) => (
                       <option value={e}>{e}</option>
                     ))}
@@ -375,7 +390,7 @@ export default function Postjob(){
                 <Typography variant="body2">
                         ตำแหน่ง
                 </Typography>
-                <select name="position" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
+                <select disabled={disButton===true} name="position" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
                 <option>United States</option>
                 <option>Canada</option>
                 <option>France</option>
@@ -390,13 +405,13 @@ export default function Postjob(){
                 </Typography>
                 <input name = 'wageMin' type="number"
                 className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[80px] p-2.5"
-                placeholder="ต่ำสุด" onChange={handleChange} onKeyPress = {isNumberInput} ></input>
+                placeholder="ต่ำสุด" onChange={handleChange} onKeyPress = {isNumberInput} disabled={disButton===true}></input>
                 <Typography variant="body2">
                         -
                 </Typography>
                 <input name = 'wageMax' type="number"
                 className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[80px] p-2.5"
-                placeholder="สูงสุด" onChange={handleChange} onKeyPress = {isNumberInput}></input>
+                placeholder="สูงสุด" onChange={handleChange} onKeyPress = {isNumberInput} disabled={disButton===true}></input>
                 </div>
                 
               </div>
@@ -408,18 +423,19 @@ export default function Postjob(){
                 <Typography variant="body2">
                         อัตราที่รับ
                 </Typography>
-                <input name = 'rate' type="number"
+                <input name = 'rate' type="number" disabled={disButton===true}
                 className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[80px] p-2.5"
                 placeholder="จำนวน" onChange={handleChange} onKeyPress = {isNumberInput}></input>
-                
+             
                 </div>
 
                 <div className="flex space-x-2">
                 <Typography variant="body2">
                         จังหวัดของสถานประกอบการ
                 </Typography>
-                <select name="provinceAddress" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <option>ระบุสถานทีทำงานที่ต้องการจะเลือก</option>
+                <select name="provinceAddress" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" 
+                onChange={handleChange} disabled={disButton===true}>
+                <option value= '1' >ระบุสถานทีทำงานที่ต้องการจะเลือก</option>
                     {provinces.map((item, index) => (
                       <option>{item.name_th}</option>
                     ))}
@@ -431,8 +447,8 @@ export default function Postjob(){
                 <Typography variant="body2">
                         ระยะเวลาการโพสต์
                 </Typography>
-                <select name="postDateExpire" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" 
-                onChange={handleChange}>
+                <select name="postExpireIn" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" 
+                onChange={handleChange} disabled={disButton===true}>
                 <option value = '1'>1hr</option>
                 <option value = '2'>2 hrs</option>
                 <option value = '3'>3 hrs</option>
@@ -449,39 +465,57 @@ export default function Postjob(){
             <Typography variant="body1">
               สถานที่ประกอบการของบริษัท
             </Typography>
-            <textarea name ='companyAddress'className="message" rows="4" class="resize-none p-2.5 w-11/12 ml-6 mt-2 rounded-lg ring-2 ring-black" placeholder="กรุณากรอกรายละเอียด..." onChange={handleChange}></textarea>
+            <textarea disabled={disButton===true} name ='companyAddress'className="message" rows="4" class="resize-none p-2.5 w-11/12 ml-6 mt-2 rounded-lg ring-2 ring-black" placeholder="กรุณากรอกรายละเอียด..." onChange={handleChange}></textarea>
             </div>
             
             <div class="flex items-center pl-8 pt-3">
+              
             <input id="myCheck" type = "checkbox" aria-describedby="checkbox-2"  class="w-4 h-4 text-black rounded ring-2 ring-gray-700 " 
-             onClick={handleCheck} />
+             onClick={handleCheck}  disabled={disButton===true}/>
             <label for="checkbox-2" class="ml-3 text-sm font-medium text-black">
               <Typography variant="body1">
-              จ่ายเงินเพื่อ Boost Post
+                จ่ายเงินเพื่อ Boost Post
               </Typography>
               </label>
-
             </div>
 
-            <a href="/paymentcompany" class="text-decoration-none">
+
+
+
+
             <div className="flex items-center justify-center">
             <button
-              class="bg-[#24AB82] drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 mt-5 mb-4 hover:bg-[#1F795E] hover:ring-2 hover:ring-white focus:ring-2 focus:ring-white focus:outline-none " 
-            onChange={handleChange} 
-            
+               onClick={handleSubmit} onClick={disall}
+              className ="bg-[#24AB82] drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 mt-5 mb-4 hover:bg-[#1F795E] hover:ring-2 hover:ring-white focus:ring-2 focus:ring-white focus:outline-none " 
             >
+              <Typography variant="body1">
+                ยืนยันข้อมูล
+              </Typography>       
+              </button>
+            </div>
+
+
+
+            <div className="flex items-center justify-center">
+            <button
+              className ="bg-[#24AB82] drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 mt-5 mb-4 hover:bg-[#1F795E] hover:ring-2 hover:ring-white focus:ring-2 focus:ring-white focus:outline-none " 
+              disabled={disButton===false}
+            >
+              <Link to ={`/paymentcompany/?id=${recivePost._id}`} className= "text-black text-decoration-none"  >
               <Typography variant="body1">
               หน้าต่อไป
               </Typography>
-                  </button>
+              </Link  >
+              </button>
             </div>
-            </a>
 
 
-            
-        
+
+
+
+
+
       </div>
-      </form>
   </ThemeProvider>
     );
 }

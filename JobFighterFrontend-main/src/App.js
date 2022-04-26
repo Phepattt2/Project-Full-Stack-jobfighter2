@@ -20,6 +20,7 @@ import Layout from "./page/Layout";
 import PostJob from "./page/Postjob"
 import Testzzz from "./page/zzz"
 import Applyjob from "./page/Applyjob"
+import Paymentcompany from "./page/Payment-company"
 
 function App(){
   
@@ -45,7 +46,7 @@ function App(){
           <Route path="/postjob" element={<PostJob/>} />
           <Route path="/applyjob/" element={<Applyjob/>} />
           <Route path="/zzz" element={<Testzzz/>} />
-
+          <Route path="/paymentcompany/" element={<Paymentcompany/>} />
 
 
           </Route>
