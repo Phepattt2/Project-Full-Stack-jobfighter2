@@ -216,12 +216,6 @@ export default function Postjob(){
     }
     
 
-  function disall(e) {
-    setDisButton(!disButton)
-    console.log('disbutton',disButton)
-  }
-
-
   const handleChange = (e) => {
       const d =  Date.now()
       console.log(e.target.name ,e.target.value )
@@ -246,6 +240,8 @@ export default function Postjob(){
     
     async function handleSubmit (e) {
       e.preventDefault()
+      setDisButton(!disButton)
+      console.log('disbutton',disButton)
 
       console.log('this is working')
       let keyP = ['desc' ,'benefit','college','faculty' ,'program' ,'jobType' ,'position','wageMin','wageMax' ,'rate' ,'provinceAddress','postExpireIn','companyName','companyAddress','img']
@@ -485,7 +481,7 @@ export default function Postjob(){
 
             <div className="flex items-center justify-center">
             <button
-               onClick={handleSubmit} onClick={disall}
+               onClick={handleSubmit} 
               className ="bg-[#24AB82] drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 mt-5 mb-4 hover:bg-[#1F795E] hover:ring-2 hover:ring-white focus:ring-2 focus:ring-white focus:outline-none " 
             >
               <Typography variant="body1">
