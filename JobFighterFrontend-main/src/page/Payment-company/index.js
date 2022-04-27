@@ -12,16 +12,14 @@ import axios from 'axios';
 export default function Paymentcompany(){
 
     let { user } = useSelector((state) => ({ ...state }));
-    const [pr,SetPr] = useState([])
     const [PayData,SetPayData] = useState([])
-    const [sendData,SetSendData] = useState([])
     const [value,setValue] = useState({
         payname :'',
         paydate : '',
         slipimg : '',
       })
 
-    
+
     const handleChange = (e) => {
         console.log(e.target.name ,e.target.value )
         setValue({
@@ -55,7 +53,6 @@ export default function Paymentcompany(){
             get: (searchParams, prop) => searchParams.get(prop),
           });
         let valueX = params.id;
-        SetPr(valueX)
         fetchFirstJsonData(valueX)    
 
     },[])
@@ -180,7 +177,7 @@ export default function Paymentcompany(){
                 </div>
             <div class="flex flex-col space-y-7 mt-48">
             <div className="w-full h-10 bg-white rounded-lg shadow-sm text-center">
-                    <input type="text" name = 'payname' onChange= { handleChange }
+                    <input type="text" name = 'payname' onChange= { handleChange } onKeyPress = {isCharInput}
                         className="text-black text-center text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-full p-2.5"
                         placeholder="สมหญิง เหนี่ยวไกล">
                     </input>
